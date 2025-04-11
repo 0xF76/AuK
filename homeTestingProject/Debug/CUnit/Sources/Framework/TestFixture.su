@@ -1,0 +1,2 @@
+../CUnit/Sources/Framework/TestFixture.c:101:6:CU_UseFixture	32	static
+../CUnit/Sources/Framework/TestFixture.c:106:6:CU_ResetFixtures	16	static

@@ -1,0 +1,8 @@
+../CUnit/Sources/Framework/Util.c:96:8:CU_translate_special_characters	32	static
+../CUnit/Sources/Framework/Util.c:167:8:CU_translated_strlen	8	static
+../CUnit/Sources/Framework/Util.c:186:5:CU_compare_strings	16	static
+../CUnit/Sources/Framework/Util.c:200:6:CU_trim	16	static
+../CUnit/Sources/Framework/Util.c:207:6:CU_trim_left	8	static
+../CUnit/Sources/Framework/Util.c:228:6:CU_trim_right	16	static
+../CUnit/Sources/Framework/Util.c:246:8:CU_number_width	48	static
+../CUnit/Sources/Framework/Util.c:259:13:CU_get_basename	8	static

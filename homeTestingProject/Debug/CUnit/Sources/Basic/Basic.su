@@ -1,0 +1,14 @@
+../CUnit/Sources/Basic/Basic.c:307:13:basic_all_tests_complete_message_handler	8	static
+../CUnit/Sources/Basic/Basic.c:250:13:basic_test_skipped_message_handler	0	static
+../CUnit/Sources/Basic/Basic.c:332:13:basic_suite_cleanup_failure_message_handler	8	static
+../CUnit/Sources/Basic/Basic.c:319:13:basic_suite_init_failure_message_handler	8	static
+../CUnit/Sources/Basic/Basic.c:263:13:basic_test_complete_message_handler	40	static
+../CUnit/Sources/Basic/Basic.c:231:13:basic_test_start_message_handler	24	static
+../CUnit/Sources/Basic/Basic.c:156:21:basic_initialize	8	static
+../CUnit/Sources/Basic/Basic.c:79:14:CU_basic_run_tests	8	static
+../CUnit/Sources/Basic/Basic.c:95:14:CU_basic_run_suite	8	static
+../CUnit/Sources/Basic/Basic.c:108:14:CU_basic_run_test	16	static
+../CUnit/Sources/Basic/Basic.c:123:6:CU_basic_set_mode	0	static
+../CUnit/Sources/Basic/Basic.c:129:17:CU_basic_get_mode	0	static
+../CUnit/Sources/Basic/Basic.c:135:6:CU_basic_show_failures	48	static
+../CUnit/Sources/Basic/Basic.c:341:6:CCU_basic_add_handlers	8	static
