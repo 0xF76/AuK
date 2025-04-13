@@ -1,5 +1,0 @@
-../CUnit/Sources/Framework/CUError.c:63:6:CU_set_error	8	static
-../CUnit/Sources/Framework/CUError.c:80:14:CU_get_error	0	static
-../CUnit/Sources/Framework/CUError.c:86:13:CU_get_error_msg	0	static
-../CUnit/Sources/Framework/CUError.c:92:6:CU_set_error_action	0	static
-../CUnit/Sources/Framework/CUError.c:98:16:CU_get_error_action	0	static

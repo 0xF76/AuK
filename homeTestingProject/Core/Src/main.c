@@ -25,6 +25,7 @@
 #include <stdio.h>
 #include "delay.h"
 #include "word_utilities.h"
+#include "event_manager.h"
 
 /* USER CODE END Includes */
 
@@ -60,6 +61,14 @@ static void MX_USART2_UART_Init(void);
 
 /* Private user code ---------------------------------------------------------*/
 /* USER CODE BEGIN 0 */
+Event ledEvent;
+
+void ledEventHandler(struct Event* event, uint64_t scheduledTime, void* context) {
+	HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
+
+	EVENT_MANAGER_ScheduleEvent(event, scheduledTime + 100);
+}
+
 
 /* USER CODE END 0 */
 
@@ -94,18 +103,24 @@ int main(void)
   MX_GPIO_Init();
   MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
-  extern void unit_testing_example(void); // To ma na celu usunięcie ostrzeżenia kompilatora o braku deklaracji tej funkcji (nie zrobiliśmy jej nagłowka)
-  unit_testing_example();
+//  extern void unit_testing_example(void); // To ma na celu usunięcie ostrzeżenia kompilatora o braku deklaracji tej funkcji (nie zrobiliśmy jej nagłowka)
+//  unit_testing_example();
 
   /* USER CODE END 2 */
+  EVENT_MANAGER_Init();
+
+  EVENT_MANAGER_RegisterEvent(&ledEvent, ledEventHandler, NULL);
+
+  EVENT_MANAGER_ScheduleEvent(&ledEvent, msGetTicks());
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-	  HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
-	  msDelay(500);
+//	  HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
+//	  msDelay(500);
 //	  printf("Tick: %lu\n", HAL_GetTick());
+	  EVENT_MANAGER_Proc(msGetTicks());
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */

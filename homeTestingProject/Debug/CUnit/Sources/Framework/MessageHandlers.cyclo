@@ -1,6 +1,0 @@
-../CUnit/Sources/Framework/MessageHandlers.c:44:13:_free_MessageHandler	36
-../CUnit/Sources/Framework/MessageHandlers.c:63:6:CCU_MessageHandler_Add	4
-../CUnit/Sources/Framework/MessageHandlers.c:84:6:CCU_MessageHandler_Clear	26
-../CUnit/Sources/Framework/MessageHandlers.c:91:6:CCU_MessageHandler_Set	28
-../CUnit/Sources/Framework/MessageHandlers.c:140:6:CCU_MessageHandler_Run	34
-../CUnit/Sources/Framework/MessageHandlers.c:152:21:CCU_MessageHandler_Get	1
