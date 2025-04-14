@@ -26,6 +26,7 @@
 #include "delay.h"
 #include "word_utilities.h"
 #include "event_manager.h"
+#include "usart.h"
 
 /* USER CODE END Includes */
 
@@ -45,7 +46,6 @@
 /* USER CODE END PM */
 
 /* Private variables ---------------------------------------------------------*/
-UART_HandleTypeDef huart2;
 
 /* USER CODE BEGIN PV */
 
@@ -54,7 +54,6 @@ UART_HandleTypeDef huart2;
 /* Private function prototypes -----------------------------------------------*/
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
-static void MX_USART2_UART_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -66,7 +65,41 @@ Event ledEvent;
 void ledEventHandler(struct Event* event, uint64_t scheduledTime, void* context) {
 	HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
 
-	EVENT_MANAGER_ScheduleEvent(event, scheduledTime + 100);
+	EVENT_MANAGER_ScheduleEvent(event, scheduledTime + 500);
+}
+
+void USART_StressTest(void)
+{
+    size_t i;
+    uint32_t checksum;
+    char c;
+
+    // initialize USART
+    USART_Init();
+
+    while (1) {
+        // reset variables
+        i = 0;
+        checksum = 0;
+
+        // wait for 10kB of data
+        while (i < 10*1024) {
+            if (USART_GetChar(&c)) {
+                // if character has been received, calculate the checksum
+                checksum += c;
+                i++;
+            } else {
+                // delay - this delay introduces the 'tricky' part in the test
+                // do not modify it!
+                volatile int j;
+                for (j=0; j < 10000; j++) {
+                    ;
+                }
+            }
+        }
+        // after receiving 10kB of data, send out the checksum
+        USART_WriteData(&checksum, sizeof(checksum));
+    }
 }
 
 
@@ -101,17 +134,19 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
-  MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
 //  extern void unit_testing_example(void); // To ma na celu usunięcie ostrzeżenia kompilatora o braku deklaracji tej funkcji (nie zrobiliśmy jej nagłowka)
 //  unit_testing_example();
+  USART_Init();
+//  USART_WriteString("Hello world\n\r");
 
-  /* USER CODE END 2 */
   EVENT_MANAGER_Init();
 
   EVENT_MANAGER_RegisterEvent(&ledEvent, ledEventHandler, NULL);
 
   EVENT_MANAGER_ScheduleEvent(&ledEvent, msGetTicks());
+
+  /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
@@ -120,7 +155,11 @@ int main(void)
 //	  HAL_GPIO_TogglePin(LD2_GPIO_Port, LD2_Pin);
 //	  msDelay(500);
 //	  printf("Tick: %lu\n", HAL_GetTick());
-	  EVENT_MANAGER_Proc(msGetTicks());
+//	  EVENT_MANAGER_Proc(msGetTicks());
+	    char buf[50];
+	    msDelay(3000);
+	    size_t count = USART_ReadData(buf, sizeof(buf));
+	    USART_WriteData(buf, count);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -172,39 +211,6 @@ void SystemClock_Config(void)
   {
     Error_Handler();
   }
-}
-
-/**
-  * @brief USART2 Initialization Function
-  * @param None
-  * @retval None
-  */
-static void MX_USART2_UART_Init(void)
-{
-
-  /* USER CODE BEGIN USART2_Init 0 */
-
-  /* USER CODE END USART2_Init 0 */
-
-  /* USER CODE BEGIN USART2_Init 1 */
-
-  /* USER CODE END USART2_Init 1 */
-  huart2.Instance = USART2;
-  huart2.Init.BaudRate = 115200;
-  huart2.Init.WordLength = UART_WORDLENGTH_8B;
-  huart2.Init.StopBits = UART_STOPBITS_1;
-  huart2.Init.Parity = UART_PARITY_NONE;
-  huart2.Init.Mode = UART_MODE_TX_RX;
-  huart2.Init.HwFlowCtl = UART_HWCONTROL_NONE;
-  huart2.Init.OverSampling = UART_OVERSAMPLING_16;
-  if (HAL_UART_Init(&huart2) != HAL_OK)
-  {
-    Error_Handler();
-  }
-  /* USER CODE BEGIN USART2_Init 2 */
-
-  /* USER CODE END USART2_Init 2 */
-
 }
 
 /**
